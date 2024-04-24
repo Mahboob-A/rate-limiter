@@ -16,7 +16,7 @@ class RateLimiter:
         self.__next_minute = self._get_time(next_minute=True)
 
     def print_current_time(self): 
-        now = self._get_time()
+        now = self._get_time(with_seconds=True)
         now = now.strftime("%I:%M:%S %p")
         print('Request Time: ', now)
 
