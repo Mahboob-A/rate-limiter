@@ -5,7 +5,7 @@ class RateLimiter:
     '''
         Rate Limiter class. Custom implementation of TokenBucket algorithm. 
         
-        The rate limiter allows at most 5 requests to the API interface to access the Calculator class.
+        The rate limiter allows at most predefined number of requests to the API interface to access the Calculator class.
         
         All the exceeding requests are throttled. 
         '''
