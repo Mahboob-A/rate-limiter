@@ -13,7 +13,6 @@ class RateLimiter:
     def __init__(self, token_size=5, refill_rate_time_in_minutes=1):
         self.__token_size = token_size
         self.__bucket = [1] * token_size
-        self.__last_request_time = self._get_time()
         self.__refill_rate_time_in_minutes = refill_rate_time_in_minutes 
         self.__next_refill_time = self._get_time(next_refill_time=True)
         self.__refill_time_counter = self.__refill_rate_time_in_minutes # to show correct wait time during throttling
@@ -42,20 +41,9 @@ class RateLimiter:
         now = now.replace(second=0, microsecond=0)
         return now 
 
-    def _update_request_time(self):
-        """ update the requst time with current time"""
-        self.__last_request_time = self._get_time()
-
     def total_token_in_bucket(self):
         ''' return the current length of bucket '''
         return len(self.__bucket)
-
-    def _refill_token_in_bucket(self):
-        ''' refil if request minute/hour are different. bucket is refilled at in the format: 12:01:00. '''
-        now = self._get_time()
-        if now.minute !=  self.__last_request_time.minute or now.hour != self.__last_request_time.hour: 
-            del self.__bucket 
-            self.__bucket = [1] * self.__token_size
 
     def _proceed_request(self):
         """pop a token from bucket and proceed the request."""
@@ -84,7 +72,7 @@ class RateLimiter:
         # print('self.__next: ', self.__next_minute)
         # print('now: ', now)
         if self.__next_refill_time == now:
-            #  update next refill time
+            #  update next refill time and refil counter
             self.__next_refill_time = self._get_time(next_refill_time=True)
             self.__refill_time_counter = self.__refill_rate_time_in_minutes
             print('***BUCKET RESET***.')
@@ -92,7 +80,7 @@ class RateLimiter:
         else: 
             return False 
 
-    def _refill_bucket_at_refill_time_beginning(self): 
+    def _refill_bucket(self):
         """ if the time is fresh minute start ex (12:10:00), then reset the bucket with token size. """
         if self._should_refill(): 
             del self.__bucket 
@@ -103,17 +91,15 @@ class RateLimiter:
         self.print_current_time()
 
         # check if bucket should be reset for beginning new minute.
-        self._refill_bucket_at_refill_time_beginning()
+        self._refill_bucket()
 
         curr_total_token = self.total_token_in_bucket()
         if curr_total_token >= 1:
-            # self._update_request_time()
             return self._proceed_request()
         else: 
-            self._refill_bucket_at_refill_time_beginning()  ######### _refill_token_in_bucket
+            self._refill_bucket()  
             curr_total_token = self.total_token_in_bucket()
             if curr_total_token >= 1: 
-                # self._update_request_time()
                 return self._proceed_request()
             else: 
                 return self._throttle_request()
