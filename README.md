@@ -85,15 +85,6 @@ The tokenbucket algorithm implemented here is slightly different than the standa
 
 I have customized it while analyzing the requirements. 
 
-## Screenshots
-
-#### API startup and Acceptance of requests 
-![Screenshot from 2024-04-25 11-09-42](https://github.com/Mahboob-A/rate-limiter/assets/109282492/1a2ff81d-0946-4746-9a16-400b6ae46612)
-
-##### Request throttled and Bucket reset after refil time
-![Screenshot from 2024-04-25 11-10-33](https://github.com/Mahboob-A/rate-limiter/assets/109282492/97094752-fd9f-4ca5-a743-0642bcfc9f9c)
-
-
 ## FAQ
 
 #### Which algorithm has been implemented in the rate limier
@@ -103,3 +94,13 @@ TokenBucket Algorithm
 #### Language
 
 Python 
+
+## Screenshots
+
+#### API startup and Acceptance of requests 
+![Screenshot from 2024-04-25 11-09-42](https://github.com/Mahboob-A/rate-limiter/assets/109282492/1a2ff81d-0946-4746-9a16-400b6ae46612)
+
+##### Request throttled and Bucket reset after refil time
+![Screenshot from 2024-04-25 11-10-33](https://github.com/Mahboob-A/rate-limiter/assets/109282492/97094752-fd9f-4ca5-a743-0642bcfc9f9c)
+
+
